@@ -1,15 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <div class="mixpanel-platform-section">
+      <div id="eventSelect" style="float: left;"></div>
+      <div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>
+      <div id="propSelect" style="float: left;"></div>
+      <div id="dateSelect" style="float: right;"></div>
+      <div style="clear: both;"></div>
+      <div id="graph"></div>
+    </div>
+    <div id="table"></div>
     <script>
-      // Run queries and display results here
+     MP.api.ready(function() {
+        /*  First Chart */
+      
+        var first_chart = MP.api.events('Account Created', 'Yousician Downloaded', {
+            from: moment().subtract(1, 'months'),
+            unit: 'day'
+        });
+     
+        var second_chart = MP.api.events('First Time Signed In', 'Subscribed', {
+            from: moment().subtract(2, 'months'),
+            unit: 'day'
+        });
+       
+       
+        var third_chart = MP.api.events('Seen L1Ad1', 'Seen L1Ad4', {
+            from: moment().subtract(1, 'months'),
+            unit: 'day'
+        });
+        
+        var fourth_chart = MP.api.events('Notification Sent', 'Plan Clicked', {
+            from: moment().subtract(2, 'months'),
+            unit: 'day'
+        });
+        
+        $.when(first_chart, second_chart, third_chart, fourth_chart).done(function(first_chart, second_chart, third_chart, fourth_chart) {
+            
+           
+            
+            var drawGraph = function(firstChartData, secondChartData, thirdChartData, fourthChartData){
+          
+                $('<div class="first"></div>').css({'width':'460px', 'float':'left'}).appendTo('body').MPChart({
+                    chartType: 'line',
+                    data: firstChartData
+                });
+                
+                $('<div class="second"></div>').css({'width':'460px', 'float':'right'}).appendTo('body').MPChart({
+                    chartType: 'line',
+                    data: secondChartData
+                });
+                
+                $('<div class="third"></div>').css({'width':'460px', 'float':'left'}).appendTo('body').MPChart({
+                    chartType: 'line',
+                    data: thirdChartData
+                });
+                
+                $('<div class="fourth"></div>').css({'width':'460px', 'float':'right'}).appendTo('body').MPChart({
+                    chartType: 'bar',
+                    data: fourthChartData
+                });
+                //$('.mixpanel-platform-multi_selector').css({'clear':'both'});
+                //$('.title').css({'width':'55px'});
+                $('.color_toggle_dropdown').each(function(){this.style.setProperty('width', '170px', 'important')});
+                $('.title').each(function(){this.style.setProperty('width', '105px', 'important')});
+                
+            }
+            
+            
+            drawGraph(first_chart.values(), second_chart.values(), third_chart.values(), fourth_chart.values());
+            
+        });
+     });
     </script>
   </body>
 </html>
+
