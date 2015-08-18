@@ -7,6 +7,9 @@
   </head>
   <body class="mixpanel-platform-body">
     <div class="mixpanel-platform-section">
+      <div class="titles">
+        <h1 style="font-size: 18px; color: rgb(95,105,131)">Dashboard Report</h1><br/>
+      </div>
       <div id="eventSelect" style="float: left;"></div>
       <div id="by" class="mixpanel-platform-label" style="margin-left: 10px; display: none;">by</div>
       <div id="propSelect" style="float: left;"></div>
@@ -35,8 +38,8 @@
             unit: 'day'
         });
         
-        var fourth_chart = MP.api.events('Notification Sent', 'Plan Clicked', {
-            from: moment().subtract(2, 'months'),
+        var fourth_chart = MP.api.events('Notification Sent', 'Notification Opened', {
+            from: moment().subtract(1, 'months'),
             unit: 'day'
         });
         
@@ -62,7 +65,7 @@
                 });
                 
                 $('<div class="fourth"></div>').css({'width':'460px', 'float':'right'}).appendTo('body').MPChart({
-                    chartType: 'bar',
+                    chartType: 'line',
                     data: fourthChartData
                 });
                 //$('.mixpanel-platform-multi_selector').css({'clear':'both'});
